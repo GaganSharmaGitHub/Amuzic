@@ -16,7 +16,7 @@ class Songlists extends StatelessWidget {
           centerTitle: true,
           //backgroundColor: Color(Colors.amber),
         ),
-        body: SonglistsBody(),
+        body: MusicList(),
         floatingActionButton: FloatingActionButton(
           onPressed: (){},
           child: Icon(Icons.shuffle),        
@@ -25,54 +25,36 @@ class Songlists extends StatelessWidget {
       );
   }
 }
-class SonglistsBody extends StatefulWidget {
+class MusicList extends StatefulWidget {
   @override
-  _SonglistsBodyState createState() => _SonglistsBodyState();
+  _MusicListState createState() => _MusicListState();
 }
 
-class _SonglistsBodyState extends State<SonglistsBody> {
-
-String playListId='PLaK0KGHQGBZtHJ-YqaLTmwBN2QrVmzQkJ';
-String apiPlay;
-List items=[];
-void getSongLists() async{
-  Map arg=ModalRoute.of(context).settings.arguments;
-  playListId=arg['playId'];
- apiPlay='https://www.googleapis.com/youtube/v3/playlistItems?playlistId='+playListId+'&key='+apiKeyYT+'&part=snippet,id&maxResults=50';
-Response rawdata = await get(apiPlay);
-Map data= jsonDecode(rawdata.body);
-setState(() {
-items=data['items'];
-  
-});
-//print(ModalRoute.of(context).settings.arguments);
-}
+class _MusicListState extends State<MusicList> {
+  List dataList=[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    getSongLists();
-   return items.length!=0?
+    Map map=ModalRoute.of(context).settings.arguments;
+    List dataArray=map['dataArray'];
+   // //dataArray[0]);
     
-ListView.builder(
-  itemCount: items.length,
-  itemBuilder: (context, index) {
-    if(items[index]['snippet']["thumbnails"]==null){
-      return SizedBox(height: 1,);
-    }
-    return Card(
-      child: ListTile(
-        title: Text(items[index]['snippet']['title']),
-        onTap: (){},
-        leading: CircleAvatar(backgroundImage: NetworkImage(items[index]['snippet']["thumbnails"]["default"]['url']),),
-        trailing: Icon(Icons.play_arrow),
-      ),
-      color: Colors.deepOrange[300],
-      
+    return Container(
+      child: ListView.builder(itemBuilder:(context,index){
+
+        return Card(child: ListTile(onTap: (){
+          Navigator.pushNamed(context, '/player', arguments: {'playId':dataArray[index]['id']});
+        },
+        title: Text(dataArray[index]['snippet']['title']),
+        leading: CircleAvatar(backgroundImage: NetworkImage(dataArray[index]['snippet']['thumbnails']['default']['url']),),
+        ),
+        );
+      },
+      itemCount: dataArray.length),
     );
-  },
-)
-    :Center(child: SpinKitCubeGrid(
-  color: Colors.deepOrangeAccent,
-  size: 50.0,
-),);
   }
 }
