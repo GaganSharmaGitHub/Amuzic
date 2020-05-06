@@ -23,26 +23,35 @@ class LoadSongLoader extends StatefulWidget {
 
 class _LoadSongLoaderState extends State<LoadSongLoader> {
   List dataList=[];
-  void getData(String idarg) async{
+  String passtt;
+  void getData(String idarg,String titles) async{
     Response response=await get('https://www.googleapis.com/youtube/v3/playlistItems?playlistId='+idarg+'&key='+apiKeyYT+'&part=snippet,id&maxResults=50');
     var jsonRes=jsonDecode(response.body);
     ////jsonRes);
     setState(() {
       dataList= jsonRes['items'];
-      Navigator.pushReplacementNamed(context, '/songList', arguments: {'dataArray':dataList});
+      List dataToSend=[];
+    dataList.forEach((f){
+      dataToSend.add({
+        'vid':f['snippet']['resourceId']['videoId'],
+        'img':f['snippet']['thumbnails']['default']['url'],
+        'title':f['snippet']['title']
+      });
+    });
+      Navigator.pushReplacementNamed(context, '/songList', arguments: {'dataArray':dataToSend,'title':titles});
     });
   }
   @override
   Widget build(BuildContext context) {   
     Map map=ModalRoute.of(context).settings.arguments;
     String id=map['playId'];
-    getData(id);
-    return Container(
-      child: Center(
-        child: SpinKitWave(
-             color: Colors.deepOrangeAccent,
-             size: 50.0,
-        )),
-    );
+
+   getData(id,map['title']);
+    return  Center(
+    child: SpinKitWave(
+      color: Colors.deepOrangeAccent,
+      size: 50.0,
+      ));
+        
   }
 }

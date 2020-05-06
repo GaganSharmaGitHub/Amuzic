@@ -233,6 +233,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  youtube_extractor:
+    dependency: "direct main"
+    description:
+      name: youtube_extractor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   youtube_player_flutter:
     dependency: "direct main"
     description:

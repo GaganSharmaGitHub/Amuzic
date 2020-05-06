@@ -15,13 +15,12 @@ class ListCard extends StatelessWidget {
             Column(
               children: <Widget>[
                 CircleAvatar(
-                       backgroundImage: NetworkImage(data['snippet']['thumbnails']['default']['url']),
+                       backgroundImage: NetworkImage(data['img']),
                        radius: 60,
-                       
-                            ),
+                       ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Text(data['snippet']['title'],
+                  child: Text(data['title'],
                   style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
 
@@ -30,8 +29,7 @@ class ListCard extends StatelessWidget {
             ),
           ),  splashColor: Colors.deepOrangeAccent,
           onTap: (){
-            ////data['snippet']['title']);
-            Navigator.pushNamed(context, '/loadSongs', arguments: {'playId':data['id']});
+            Navigator.pushReplacementNamed(context, '/loadSongs', arguments: {'playId':data['id'],'title':data['title']});
           },
       ),
 

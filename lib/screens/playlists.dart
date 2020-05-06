@@ -1,3 +1,4 @@
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -15,49 +16,49 @@ class Playlists extends StatelessWidget {
 
           //backgroundColor: Color(Colors.amber),
         ),
-        body: ListOfPlayList(),
+        body: PlayerLists222(),
         floatingActionButton: FloatingActionButton(
-          onPressed: (){},
-          child: Icon(Icons.shuffle),        
+          onPressed: (){
+            Navigator.pushReplacementNamed(context, '/check');
+          },
+          child: Icon(Icons.shuffle),
+          backgroundColor: Colors.deepOrangeAccent,        
         ),
         
       );
   }
 }
-class ListOfPlayList extends StatefulWidget {
-  @override
-  _ListOfPlayListState createState() => _ListOfPlayListState();
-}
 
-class _ListOfPlayListState extends State<ListOfPlayList> {
-  List dataList=[];
-  void getData() async{
-    Response response=await get('https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=UCb1OXo_THQYF3lEuM2cjCkw&key='+apiKeyYT);
-    var jsonRes=jsonDecode(response.body);
+  // Widget grid(){
+  //   return GridView.count(crossAxisCount: 2,
+  //   children: dataList.map((itemData){
+  //        return ListCard(itemData);
+  //       }).toList(),
+  //   );
+  // }
+  Widget list(List arr, String str){
+   return Column(
+     children: <Widget>[
+       Text(str),
+       (Container(
+         height: 200,
+      child: ListView(
+      scrollDirection: Axis.horizontal,
+      children: arr.map((itemData){
+        return ListCard(itemData);
+              }).toList(),
+            ),
+        )),
+     ],
+   );
+  }
+  class PlayerLists222 extends StatelessWidget {
+    @override
+    Widget build(BuildContext context) {
+     Map map=ModalRoute.of(context).settings.arguments;
+    List dataList=map['dataArray'];
 
-    setState(() {
-      dataList= jsonRes['items'];
-      
-    });
-  }
-  Widget grid(){
-    return GridView.count(crossAxisCount: 2,
-    children: dataList.map((itemData){
-         return ListCard(itemData);
-        }).toList(),
-    );
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getData();
-  }
-  @override
-  Widget build(BuildContext context) {
     return Container(
-        child: dataList.isEmpty?Text('load'):grid()
-    );
+        child:list(dataList,'channel Lists')
+    );}
   }
-}
-

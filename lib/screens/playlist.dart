@@ -1,56 +1,54 @@
-
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:Amuzic/apiKeyYT.dart';
-import 'package:http/http.dart';
 class Songlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Choose Song'),
-          elevation: 0,
-          backgroundColor: Colors.deepOrangeAccent,
+    Map map=ModalRoute.of(context).settings.arguments;
+    List playlist=map['dataArray'];
 
-          centerTitle: true,
-          //backgroundColor: Color(Colors.amber),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(map['title']),
+        elevation: 0,
+        backgroundColor: Colors.deepOrangeAccent,
+        centerTitle: true,
+      ),
         body: MusicList(),
         floatingActionButton: FloatingActionButton(
-          onPressed: (){},
-          child: Icon(Icons.shuffle),        
-        ),
-        
-      );
+          onPressed: (){
+            playlist.shuffle();
+            Navigator.pushReplacementNamed(
+              context, '/songList',
+               arguments: {
+                 'dataArray':playlist,
+                 'title':map['title']
+                 }
+                 );
+          },
+        child: Icon(Icons.shuffle),        
+          backgroundColor: Colors.deepOrangeAccent,        
+      ),  
+    );
   }
-}
-class MusicList extends StatefulWidget {
-  @override
-  _MusicListState createState() => _MusicListState();
 }
 
-class _MusicListState extends State<MusicList> {
-  List dataList=[];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+class MusicList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map map=ModalRoute.of(context).settings.arguments;
-    List dataArray=map['dataArray'];
-   // //dataArray[0]);
-    
+     List dataArray=map['dataArray'];
+    String playlistName=map['title'];
+   
     return Container(
       child: ListView.builder(itemBuilder:(context,index){
 
         return Card(child: ListTile(onTap: (){
-          Navigator.pushNamed(context, '/player', arguments: {'playId':dataArray[index]['id']});
+          Navigator.pop(context);
+        
+         Navigator.pushReplacementNamed(context, '/player', arguments: {'playList':dataArray, 'index':index,'playlistName': playlistName});
+        //print('gaganKadat: '+dataArray[index]['snippet']);
         },
-        title: Text(dataArray[index]['snippet']['title']),
-        leading: CircleAvatar(backgroundImage: NetworkImage(dataArray[index]['snippet']['thumbnails']['default']['url']),),
+        title: Text(dataArray[index]['title']),
+        leading: CircleAvatar(backgroundImage: NetworkImage(dataArray[index]['img']),),
         ),
         );
       },
