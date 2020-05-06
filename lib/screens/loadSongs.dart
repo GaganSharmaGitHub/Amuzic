@@ -34,7 +34,7 @@ class _LoadSongLoaderState extends State<LoadSongLoader> {
     dataList.forEach((f){
       dataToSend.add({
         'vid':f['snippet']['resourceId']['videoId'],
-        'img':f['snippet']['thumbnails']['default']['url'],
+        'img':f['snippet']['thumbnails']['standard']['url'],
         'title':f['snippet']['title']
       });
     });

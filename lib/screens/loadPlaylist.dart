@@ -36,7 +36,7 @@ class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
     dataList.forEach((f){
       dataToSend.add({
         'id':f['id'],
-        'img':f['snippet']['thumbnails']['default']['url'],
+        'img':f['snippet']['thumbnails']['standard']['url'],
         'title':f['snippet']['title']
       });
     });
