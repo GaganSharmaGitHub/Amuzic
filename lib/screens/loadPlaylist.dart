@@ -23,38 +23,45 @@ class LoadPlaylistLoader extends StatefulWidget {
 
 class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
   List dataList=[];
-  String passtt;
-  void getData() async{
-   // Response response=await get('https://www.googleapis.com/youtube/v3/playlistItems?playlistId='+idarg+'&key='+apiKeyYT+'&part=snippet,id&maxResults=50');
-    Response response=await get('https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=UCb1OXo_THQYF3lEuM2cjCkw&key='+apiKeyYT);
-   
-    var jsonRes=jsonDecode(response.body);
-    ////jsonRes);
-    setState(() {
-      dataList= jsonRes['items'];
-      List dataToSend=[];
-    dataList.forEach((f){
-      dataToSend.add({
+  String passtt='foo';
+  getAll(List cList) async{
+    var data = await getData(cList[0]);
+    List<Future> dataSending;
+    
+    dataSending= cList.map((f){return getData(f);}).toList();
+    List sent =await Future.wait(dataSending);
+  Navigator.pushReplacementNamed(context, '/playlists', arguments: {'dataArray':sent,});
+    
+  }
+  Future getData(String cId) async{
+    Response response=await get('https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId='+cId+'&key='+apiKeyYT); 
+    var jsonRes=jsonDecode(response.body);  
+    List  dataitem= jsonRes['items'];
+    String channelName= dataitem[0]['snippet']['channelTitle'];
+      List dataOfChannel= dataitem.map((f){
+        return {
         'id':f['id'],
         'img':f['snippet']['thumbnails']['standard']['url'],
         'title':f['snippet']['title']
-      });
-    });
-      Navigator.pushReplacementNamed(context, '/playlists', arguments: {'dataArray':dataToSend,});
-    });
+      };
+      }).toList();
+      Map senD={'array':dataOfChannel,'title':channelName};
+      return senD;
   }
   @override
   Widget build(BuildContext context) {   
     //..Map map=ModalRoute.of(context).settings.arguments;
     //String id=map['playId'];
-
-    getData();
+getAll(['UCb1OXo_THQYF3lEuM2cjCkw','UCl2qXNHvpjHldVFM-_ENM9Q']);
+    //getData();
     return Container(
       child: Center(
-        child: SpinKitWave(
-             color: Colors.deepOrangeAccent,
-             size: 50.0,
-        )),
+        child:
+        SpinKitWave(
+                 color: Colors.deepOrangeAccent,
+                 size: 50.0,
+            )
+        ),
     );
   }
 }

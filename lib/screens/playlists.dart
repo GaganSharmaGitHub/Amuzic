@@ -1,4 +1,4 @@
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+//import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:Amuzic/components/listCard.dart';
 class Playlists extends StatelessWidget {
@@ -56,6 +56,10 @@ class Playlists extends StatelessWidget {
     List dataList=map['dataArray'];
 
     return Container(
-        child:list(dataList,'channel Lists')
+        child:Column(
+          children: dataList.map((f){
+return list(f['array'], f['title']);
+
+          }).toList(),)
     );}
   }

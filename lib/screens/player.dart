@@ -122,8 +122,9 @@ onEnded: (k){
 Container(
          height: 100,
          color: Colors.deepOrangeAccent,
-      child: ListView(
+      child: ListWheelScrollView(
       scrollDirection: Axis.horizontal,
+      itemExtent:150,
       controller: ScrollController(initialScrollOffset: index*150.0),
       children: 
 playlist.asMap().entries.map((entry) {

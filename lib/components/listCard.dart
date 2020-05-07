@@ -6,7 +6,9 @@ class ListCard extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(child: 
+    return Container(
+      width: 150,
+      child: 
       Card(
               child: InkWell(
           child: Padding(
@@ -21,7 +23,9 @@ class ListCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Text(data['title'],
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  textWidthBasis: TextWidthBasis.parent,
+                  style: TextStyle(fontWeight: FontWeight.bold,),
+                  overflow: TextOverflow.clip,),
                 ),
 
               ],
