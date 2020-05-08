@@ -10,36 +10,44 @@ class ListCard extends StatelessWidget {
       width: 150,
       child: 
       Card(
+        elevation: 10,
               child: InkWell(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(child: 
             Column(
               children: <Widget>[
-                CircleAvatar(
-                       backgroundImage: NetworkImage(data['img']),
-                       radius: 60,
-                       ),
+                 ClipOval(
+                   
+                   child: Container(
+                     child: FadeInImage.assetNetwork(
+                         placeholder: 'image/amuzicLogo.png',
+                         image: data['img'],
+                        ),
+                   width: 120,
+                   height: 120,
+                   color: Colors.deepOrangeAccent,
+                   )
+                   ),       
+                       
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Text(data['title'],
-                  textWidthBasis: TextWidthBasis.parent,
+                 // textWidthBasis: TextWidthBasis.parent,
+                  maxLines: 1,
                   style: TextStyle(fontWeight: FontWeight.bold,),
-                  overflow: TextOverflow.clip,),
+                  overflow: TextOverflow.ellipsis,),
                 ),
-
               ],
             )
             ),
-          ),  splashColor: Colors.deepOrangeAccent,
-          onTap: (){
-            Navigator.pushReplacementNamed(context, '/loadSongs', arguments: {'playId':data['id'],'title':data['title']});
-          },
-      ),
-
           ),
-        
-        
+          splashColor: Colors.deepOrangeAccent,
+          onTap: (){
+            Navigator.pushNamed(context, '/loadSongs', arguments: {'playId':data['id'],'title':data['title']});
+          },
+        ),
+      ),
     );
   }
 }

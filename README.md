@@ -1,7 +1,11 @@
 # Amuzic
 The amazing music app. Amuzic automatically searches and adds music from your youtube playlists.
-### Screenshots
-![screenshot](./flutter_01.png)
-![screenshot](./flutter_02.png)
-![screenshot](./flutter_05.png)
-
+### Get Started
+#### Login or SignUp using email and password
+![Login Screen](./login.png)
+#### Add your favourite youtube playlists and channels
+#### Select through music collection
+![Collection](./collection.png)
+#### Enjoy!
+![Playlist](./playlist.png)
+![Player](./player.png)

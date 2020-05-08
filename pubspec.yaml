@@ -23,7 +23,8 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   flutter_launcher_icons: "^0.7.3"
   youtube_player_flutter: ^6.1.0+7
-  youtube_extractor: ^1.0.4
+  firebase_auth: ^0.16.0
+  provider: 3.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -42,7 +43,11 @@ flutter_icons:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+#flutter:
 flutter:
+  assets:
+    - image/
+#    - directory/subdirectory/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -50,8 +55,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  #  assets:
+   #  - image/amuzicLogo.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

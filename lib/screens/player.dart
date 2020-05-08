@@ -32,6 +32,11 @@ onEnded: (k){
      Navigator.pushReplacementNamed(context, '/player', arguments: {'playList':playlist, 'index':index>=playlist.length-1?0:index+1,'playlistName': playListName});
   },
  ),
+ 
+   Expanded(
+          flex: 1, 
+          child: Container(),
+        ),
   Padding(
     padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
     child: Row(
@@ -56,8 +61,8 @@ onEnded: (k){
                   funcTwo: _controller.pause,
                   icon1: Icons.play_arrow,
                   icon2: Icons.pause,),
-            PlayPauseButton(funcOne: _controller.mute,
-                  funcTwo: _controller.unMute,
+            PlayPauseButton(funcTwo: _controller.mute,
+                  funcOne: _controller.unMute,
                   icon1: Icons.volume_off,
                   icon2: Icons.volume_up,),
 
@@ -122,9 +127,8 @@ onEnded: (k){
 Container(
          height: 100,
          color: Colors.deepOrangeAccent,
-      child: ListWheelScrollView(
+      child: ListView(
       scrollDirection: Axis.horizontal,
-      itemExtent:150,
       controller: ScrollController(initialScrollOffset: index*150.0),
       children: 
 playlist.asMap().entries.map((entry) {

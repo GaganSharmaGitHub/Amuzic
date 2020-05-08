@@ -16,6 +16,7 @@ class Songlists extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: (){
             playlist.shuffle();
+            Navigator.pop(context);
             Navigator.pushReplacementNamed(
               context, '/songList',
                arguments: {
@@ -43,7 +44,7 @@ class MusicList extends StatelessWidget {
 
         return Card(child: ListTile(onTap: (){
           Navigator.pop(context);
-        
+        Navigator.pop(context);
          Navigator.pushReplacementNamed(context, '/player', arguments: {'playList':dataArray, 'index':index,'playlistName': playlistName});
         //print('gaganKadat: '+dataArray[index]['snippet']);
         },

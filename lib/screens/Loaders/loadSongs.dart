@@ -8,10 +8,6 @@ class LoadSongs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: LoadSongLoader(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){},
-          child: Icon(Icons.shuffle),        
-        ),
         
       );
   }

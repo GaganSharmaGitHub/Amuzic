@@ -8,11 +8,7 @@ class LoadPlaylists extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: LoadPlaylistLoader(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){},
-          child: Icon(Icons.shuffle),        
-        ),
-        
+        backgroundColor: Colors.white,        
       );
   }
 }
@@ -24,8 +20,9 @@ class LoadPlaylistLoader extends StatefulWidget {
 class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
   List dataList=[];
   String passtt='foo';
-  getAll(List cList) async{
-    var data = await getData(cList[0]);
+  getAll(List cLit) async{
+   var cList= cLit.toSet();
+    //var data = await getData(cList[0]);
     List<Future> dataSending;
     
     dataSending= cList.map((f){return getData(f);}).toList();
@@ -35,10 +32,17 @@ class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
   }
   Future getData(String cId) async{
     Response response=await get('https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId='+cId+'&key='+apiKeyYT); 
-    var jsonRes=jsonDecode(response.body);  
+    Map jsonRes=jsonDecode(response.body); 
+    if(jsonRes.containsKey('error')){
+    return {
+      'title':'channel not found',
+      'array':[]
+    };
+    } 
     List  dataitem= jsonRes['items'];
     String channelName= dataitem[0]['snippet']['channelTitle'];
       List dataOfChannel= dataitem.map((f){
+        
         return {
         'id':f['id'],
         'img':f['snippet']['thumbnails']['standard']['url'],
@@ -52,7 +56,7 @@ class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
   Widget build(BuildContext context) {   
     //..Map map=ModalRoute.of(context).settings.arguments;
     //String id=map['playId'];
-getAll(['UCb1OXo_THQYF3lEuM2cjCkw','UCl2qXNHvpjHldVFM-_ENM9Q']);
+getAll(['UCb1OXo_THQYF3lEuM2cjCkw','UCl2qXNHvpjHldVFM-_ENM9Q','hhhhh','UCPVhZsC2od1xjGhgEc2NEPQ','UC9upJolQXBBEAiRDKNcf2YA']);
     //getData();
     return Container(
       child: Center(
