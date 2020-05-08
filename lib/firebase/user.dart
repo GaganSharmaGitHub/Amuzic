@@ -1,6 +1,6 @@
 class User {
-  final id;
+  final uid;
   //final mail;
-  User({this.id, /*this.mail
+  User({this.uid, /*this.mail
   */});
 }

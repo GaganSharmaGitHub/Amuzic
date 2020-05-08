@@ -1,18 +1,26 @@
+import 'package:Amuzic/firebase/user.dart';
+import 'package:Amuzic/firebase/database.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:Amuzic/apiKeyYT.dart';
 import 'package:http/http.dart';
 class LoadPlaylists extends StatelessWidget {
+   
   @override
   Widget build(BuildContext context) {
+    final user= Provider.of<User>(context);
     return Scaffold(
-        body: LoadPlaylistLoader(),
+        body: LoadPlaylistLoader(uid: user.uid,),
         backgroundColor: Colors.white,        
       );
   }
 }
 class LoadPlaylistLoader extends StatefulWidget {
+  final String uid;
+  
+  LoadPlaylistLoader({this.uid});
   @override
   _LoadPlaylistLoaderState createState() => _LoadPlaylistLoaderState();
 }
@@ -29,6 +37,12 @@ class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
     List sent =await Future.wait(dataSending);
   Navigator.pushReplacementNamed(context, '/playlists', arguments: {'dataArray':sent,});
     
+  }
+  getDataBase() async{
+  final DatabaseService db= DatabaseService(uid: widget.uid);
+  List cList= await db.getChannels();
+  getAll(cList);
+   
   }
   Future getData(String cId) async{
     Response response=await get('https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId='+cId+'&key='+apiKeyYT); 
@@ -56,7 +70,7 @@ class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
   Widget build(BuildContext context) {   
     //..Map map=ModalRoute.of(context).settings.arguments;
     //String id=map['playId'];
-getAll(['UCb1OXo_THQYF3lEuM2cjCkw','UCl2qXNHvpjHldVFM-_ENM9Q','hhhhh','UCPVhZsC2od1xjGhgEc2NEPQ','UC9upJolQXBBEAiRDKNcf2YA']);
+    getDataBase();
     //getData();
     return Container(
       child: Center(

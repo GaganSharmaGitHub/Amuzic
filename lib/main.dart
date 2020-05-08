@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return StreamProvider.value(
         value: AuthServices().user,
           child: MaterialApp(
-        title: 'Welcome to Flutter',
+        title: 'Amuzic',
         initialRoute: '/check',
         routes: {
           '/loadPlaylists':(context)=>LoadPlaylists(),

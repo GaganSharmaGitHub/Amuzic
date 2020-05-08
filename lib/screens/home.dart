@@ -4,7 +4,7 @@ class MyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Welcome to Flutter'),
+          title: Text('Amuzic'),
           elevation: 0,
         ),
         body: Center(
