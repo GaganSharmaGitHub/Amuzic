@@ -5,7 +5,7 @@ The amazing music app. Amuzic automatically searches and adds music from your yo
 ![Login Screen](./login.png)
 #### Add your favourite youtube playlists and channels
 #### Select through music collection
-![Collection](./collection.png)
+![Collection](./collection.jpg)
 #### Enjoy!
 ![Playlist](./playlist.png)
 ![Player](./player.png)
