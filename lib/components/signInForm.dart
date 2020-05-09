@@ -18,6 +18,9 @@ class _LoginFormState extends State<LoginForm> {
       child: Form(
         child: ListView(
           children: <Widget>[
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -29,58 +32,83 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   Column(
                     children: <Widget>[
-                      Text('Login to Amuzic   '),
                       Text(
-                        'the amazing music app',
+                        'Log In to Amuzic',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'The amazing music app!',
                         maxLines: 2,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            Text('Enter Email:'),
-            TextFormField(
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
-              decoration: InputDecoration(
-                  hintText: 'example@email.com',
-                  prefixIcon: Icon(Icons.mail_outline),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.deepOrangeAccent))),
-              maxLines: 1,
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Enter Email:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Card(
+              child: TextFormField(
+                onChanged: (value) {
+                  setState(() {
+                    email = value;
+                  });
+                },
+                decoration: InputDecoration(
+                    hintText: 'example@email.com',
+                    prefixIcon: Icon(Icons.mail_outline),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.deepOrangeAccent))),
+                maxLines: 1,
+              ),
             ),
             SizedBox(
               height: 10,
             ),
-            Text('Enter Password:'),
-            TextFormField(
-              onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
-              },
-              obscureText: true,
-              decoration: InputDecoration(
-                  hintText: '********',
-                  prefixIcon: Icon(Icons.lock_outline),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.deepOrangeAccent))),
-              maxLines: 1,
+            Text(
+              'Enter Password:',
+              style: TextStyle(
+                  fontFamily: 'Source Sans Pro', fontWeight: FontWeight.bold),
+            ),
+            Card(
+              child: TextFormField(
+                onChanged: (value) {
+                  setState(() {
+                    password = value;
+                  });
+                },
+                obscureText: true,
+                decoration: InputDecoration(
+                    hintText: '********',
+                    prefixIcon: Icon(Icons.lock_outline),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.deepOrangeAccent))),
+                maxLines: 1,
+              ),
             ),
             SizedBox(
               height: 10,
             ),
             FlatButton(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.account_circle),
-                  Text('Log In'),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.account_circle),
+                    Text('  Log In'),
+                  ],
+                ),
               ),
               onPressed: () async {
                 dynamic result = await widget._auth
@@ -92,8 +120,16 @@ class _LoginFormState extends State<LoginForm> {
               },
               color: Colors.deepOrangeAccent,
             ),
-            Center(child: Text('not a user yet?')),
-            Center(child: Text('sign up now to create a new account'))
+            Center(
+                child: Text(
+              'Not a user yet?',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            )),
+            Center(
+                child: Text(
+              'Sign up now',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ))
           ],
         ),
       ),
