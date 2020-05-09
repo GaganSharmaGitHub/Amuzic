@@ -53,7 +53,7 @@ onEnded: (k){
          ),
        ),
        onPressed: (){
-         Navigator.pushNamed(context, '/loadPlaylists');
+         Navigator.pushNamed(context, '/loadPlaylists', arguments: {'fromPlayer':true});
       //Navigator.pushReplacementNamed(context, '/loadPlaylists');
 
        },),

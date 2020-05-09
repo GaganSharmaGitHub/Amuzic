@@ -3,7 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Amuzic/firebase/user.dart';
 class AuthServices {
   final FirebaseAuth _auth= FirebaseAuth.instance;
- 
+  final Map _errorMessage={
+    'There is no user record corresponding to this identifier. The user may have been deleted.':'Account not registered yet SignUp now',
+    'The email address is badly formatted.':'Enter correct email',
+    'The password is invalid or the user does not have a password.':'Incorrect password',
+    'Given String is empty or null':'Enter correct values',
+    'password is invalid. [ Password should be at least 6 characters ]':'Enter password of at least 6 characters',
+    'The email address is already in use by another account.':'email already registered on amuzic, login to access your favourites'
+
+  };
+
  User _getUser(FirebaseUser user){
   return user==null?null:User(uid: user.uid);
  }
@@ -17,9 +26,7 @@ class AuthServices {
    }catch(e){
     return null;
    }
- }
-
-  
+ } 
   Future signInEmailPass(Map empass) async{
     try{
   AuthResult result= await _auth.signInWithEmailAndPassword(
@@ -29,7 +36,9 @@ class AuthServices {
      FirebaseUser user = result.user;
       return _getUser(user);  
     }catch(e){
-      return null;
+      print(e.message);
+
+      return e.message;
     }
   }
  Future newUserCreate(Map empass) async{
@@ -41,9 +50,10 @@ class AuthServices {
      User myUser=_getUser(user);
      await DatabaseService(uid: myUser.uid).createUserData(empass['email']);
      return myUser;
-   }catch(e){
-    return null;
+   }catch( e){
+      print(e.message);
+  
+   return _errorMessage[e.message];
    }
- } 
-
+  } 
 }

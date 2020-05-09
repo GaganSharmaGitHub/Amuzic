@@ -85,9 +85,9 @@ class _LoginFormState extends State<LoginForm> {
           ),
           onPressed: () async{
         dynamic result= await widget._auth.signInEmailPass({'email':email,'password':password});
-        if(result==null){
+        if(result is String){
           Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text('Enter correct email and password')
+            SnackBar(content: Text(result)
             )
           );
          }

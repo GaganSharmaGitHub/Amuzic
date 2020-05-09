@@ -28,20 +28,20 @@ class LoadPlaylistLoader extends StatefulWidget {
 class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
   List dataList=[];
   String passtt='foo';
-  getAll(List cLit) async{
+  getAll(List cLit,bool fromPlayer) async{
    var cList= cLit.toSet();
     //var data = await getData(cList[0]);
     List<Future> dataSending;
     
     dataSending= cList.map((f){return getData(f);}).toList();
     List sent =await Future.wait(dataSending);
-  Navigator.pushReplacementNamed(context, '/playlists', arguments: {'dataArray':sent,});
+  Navigator.pushReplacementNamed(context, '/playlists', arguments: {'dataArray':sent,'fromPlayer':fromPlayer});
     
   }
-  getDataBase() async{
+  getDataBase(bool fromPlayer) async{
   final DatabaseService db= DatabaseService(uid: widget.uid);
   List cList= await db.getChannels();
-  getAll(cList);
+  getAll(cList, fromPlayer);
    
   }
   Future getData(String cId) async{
@@ -56,7 +56,6 @@ class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
     List  dataitem= jsonRes['items'];
     String channelName= dataitem[0]['snippet']['channelTitle'];
       List dataOfChannel= dataitem.map((f){
-        
         return {
         'id':f['id'],
         'img':f['snippet']['thumbnails']['standard']['url'],
@@ -68,9 +67,13 @@ class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
   }
   @override
   Widget build(BuildContext context) {   
-    //..Map map=ModalRoute.of(context).settings.arguments;
+    Map map=ModalRoute.of(context).settings.arguments;
+    if(map==null){
+    getDataBase(false);
+    }else{
+    getDataBase(true);
+    }
     //String id=map['playId'];
-    getDataBase();
     //getData();
     return Container(
       child: Center(

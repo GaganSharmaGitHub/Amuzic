@@ -1,25 +1,25 @@
-//import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:Amuzic/components/listCard.dart';
 class Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+  Map map=ModalRoute.of(context).settings.arguments;
+    var fromPlayer=map['fromPlayer'];
+    //print(fromPlayer);
     return Scaffold(
         appBar: AppBar(
           title: Text('Choose Playlist'),
           elevation: 0,
           centerTitle: true,
           backgroundColor: Colors.deepOrangeAccent,
-          actions: <Widget>[
+          actions:!fromPlayer?<Widget>[
             FlatButton.icon(
               onPressed: (){
                 Navigator.pushNamed(context, '/userOptions');
               },
              icon: Icon(Icons.person),
              label: Text('user'),)
-          ],
+          ]:null,
           //backgroundColor: Color(Colors.amber),
         ),
         body: PlayerLists222(),
@@ -71,7 +71,7 @@ class Playlists extends StatelessWidget {
                 ),
               ],
             ),
-                  ),
+          ),
           ),
         ],
       );
