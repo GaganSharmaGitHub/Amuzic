@@ -78,10 +78,24 @@ class _LoadPlaylistLoaderState extends State<LoadPlaylistLoader> {
     return Container(
       child: Center(
         child:
-        SpinKitWave(
-                 color: Colors.deepOrangeAccent,
-                 size: 50.0,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SpinKitWave(
+                     color: Colors.deepOrangeAccent,
+                     size: 50.0,
+                ),
+            Text('if this is taking to long try removing few channels'),
+            FlatButton(
+              child: Text('User Options'),
+              onPressed: (){
+                Navigator.pushNamed(context, '/userOptions');
+              },
+              color: Colors.deepOrangeAccent,
             )
+          ],
+        )
         ),
     );
   }

@@ -27,6 +27,7 @@ class AuthServices {
     return null;
    }
  } 
+ //SIGN IN
   Future signInEmailPass(Map empass) async{
     try{
   AuthResult result= await _auth.signInWithEmailAndPassword(
@@ -41,6 +42,12 @@ class AuthServices {
       return e.message;
     }
   }
+  Future forgotPassword(String email) async{
+  try{var res=await _auth.sendPasswordResetEmail(email: email);}
+  catch(e){
+  return null;
+  }
+  }
  Future newUserCreate(Map empass) async{
    try{
    AuthResult result = await _auth.createUserWithEmailAndPassword(
@@ -48,7 +55,7 @@ class AuthServices {
      password: empass['password']);
      FirebaseUser user= result.user;
      User myUser=_getUser(user);
-     await DatabaseService(uid: myUser.uid).createUserData(empass['email']);
+     await DatabaseService(uid: myUser.uid).createUserData(empass['name']);
      return myUser;
    }catch( e){
       print(e.message);
