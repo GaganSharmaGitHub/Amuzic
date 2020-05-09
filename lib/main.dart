@@ -1,3 +1,4 @@
+import 'package:move_to_background/move_to_background.dart';
 import 'package:Amuzic/firebase/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:Amuzic/screens/check.dart';
@@ -12,12 +13,20 @@ import 'package:Amuzic/screens/userOptions.dart';
 import 'package:Amuzic/screens/userOptions/myChannels.dart';
 //String apiPlayList='https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=UCBkNpeyvBO2TdPGVC_PsPUA&key=AIzaSyDIZ-R-Gh2Hs7TWLGpfPdmRLyjmeYhpbtg';
 void main() => runApp(MyApp());
-class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider.value(
+    return WillPopScope(
+      onWillPop: () async {
+        MoveToBackground.moveTaskToBack();
+        return false;
+      },
+      child: StreamProvider.value(
         value: AuthServices().user,
           child: MaterialApp(
         title: 'Amuzic',
@@ -34,6 +43,7 @@ class MyApp extends StatelessWidget {
           '/myChannels':(context)=> ChannelsScreen()
         },
       ),
+    ) 
     );
   }
 }
