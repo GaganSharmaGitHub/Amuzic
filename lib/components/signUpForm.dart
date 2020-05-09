@@ -115,6 +115,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         borderSide:
                             BorderSide(color: Colors.deepOrangeAccent))),
                 maxLines: 1,
+
               ),
             ),
             Text(

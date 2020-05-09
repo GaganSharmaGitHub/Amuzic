@@ -4,21 +4,53 @@ class DatabaseService{
   final CollectionReference usersCollection = Firestore.instance.collection('users');
   final String uid;
   DatabaseService({this.uid});
-  Future getChannels() async{
+  //get all channels
+  Future<List> getChannels() async{
    DocumentReference docrefer= usersCollection.document(uid);
    DocumentSnapshot snapshot= await docrefer.get();
    if(!snapshot.exists){
      updateUserChannel(['UCPVhZsC2od1xjGhgEc2NEPQ']);
+     return['UCPVhZsC2od1xjGhgEc2NEPQ'];
    }else{
      Map dataFetched= snapshot.data;
-     print(dataFetched['channels']);
-     return dataFetched['channels'];
+     List cList= dataFetched['channels'];
+    Set cSet= cList.toSet();
+   cList= cSet.toList();
+     return cList;
    }
+  }
+  //remove a channel
+  Future removeChannel(String cId) async{
+    try{List initList = await getChannels();
+   int index= initList.indexOf(cId);
+   initList.removeAt(index);
+    updateUserChannel(initList);
+    return index;}catch(e){
+      return e.message;
+    }
+  }
+  //push a channel
+  Future pushChannel(String newC) async{
+    try{List initList = await getChannels();
+    initList.add(newC);
+    updateUserChannel(initList);
+    return initList;
+    }catch(e){
+      return e.message;
+    }
   }
   //update channels
   Future updateUserChannel(List upChannel) async{
+    Set upSet= upChannel.toSet();
+    upChannel=upSet.toList();
   return await usersCollection.document(uid).setData({
     'channels':upChannel
+  }, merge: true);
+  }
+  //set name
+  Future setName(String newName) async{
+   return await usersCollection.document(uid).setData({
+    'name':newName
   }, merge: true);
   }
   //newuser

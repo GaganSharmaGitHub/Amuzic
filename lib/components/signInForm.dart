@@ -96,42 +96,34 @@ class _LoginFormState extends State<LoginForm> {
                 maxLines: 1,
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            FlatButton(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.account_circle),
-                    Text('  Log In'),
-                  ],
-                ),
-              ),
-              onPressed: () async {
-                dynamic result = await widget._auth
-                    .signInEmailPass({'email': email, 'password': password});
-                if (result == null) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text('Enter correct email and password')));
-                }
-              },
-              color: Colors.deepOrangeAccent,
-            ),
-            Center(
-                child: Text(
-              'Not a user yet?',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            )),
-            Center(
-                child: Text(
-              'Sign up now',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ))
-          ],
+            
+              SizedBox(height: 10,),
+             FlatButton(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.account_circle),
+              Text('Log In'),
+
+            ],
+          ),
+          onPressed: () async{
+        dynamic result= await widget._auth.signInEmailPass({'email':email,'password':password});
+        if(result is String){
+          Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text(result)
+            )
+          );
+         }
+        },
+        color: Colors.deepOrangeAccent,
         ),
+        Center(child: Text('not a user yet?')),
+         Center(child: Text('sign up now to create a new account'))
+            ],
+            
+          ),
+      ),
       ),
     ));
   }

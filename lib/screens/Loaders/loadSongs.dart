@@ -24,7 +24,7 @@ class _LoadSongLoaderState extends State<LoadSongLoader> {
     Response response=await get('https://www.googleapis.com/youtube/v3/playlistItems?playlistId='+idarg+'&key='+apiKeyYT+'&part=snippet,id&maxResults=50');
     var jsonRes=jsonDecode(response.body);
     ////jsonRes);
-    setState(() {
+    
       dataList= jsonRes['items'];
       List dataToSend=[];
     dataList.forEach((f){
@@ -35,7 +35,7 @@ class _LoadSongLoaderState extends State<LoadSongLoader> {
       });
     });
       Navigator.pushReplacementNamed(context, '/songList', arguments: {'dataArray':dataToSend,'title':titles});
-    });
+   // });
   }
   @override
   Widget build(BuildContext context) {   
