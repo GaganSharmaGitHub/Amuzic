@@ -153,9 +153,9 @@ class _SignUpFormState extends State<SignUpForm> {
               onPressed: () async {
                 dynamic result = await widget._auth
                     .newUserCreate({'email': email, 'password': password});
-                if (result == null) {
+                if (result is String) {
                   Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text('Enter correct email and password')));
+                      content: Text(result)));
                 }
               },
               color: Colors.deepOrangeAccent,
