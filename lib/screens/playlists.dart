@@ -23,13 +23,6 @@ class Playlists extends StatelessWidget {
           //backgroundColor: Color(Colors.amber),
         ),
         body: PlayerLists222(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            Navigator.pushNamed(context, '/check');
-          },
-          child: Icon(Icons.shuffle),
-          backgroundColor: Colors.deepOrangeAccent,        
-        ),
         
       );
   }

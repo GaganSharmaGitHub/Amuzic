@@ -53,6 +53,15 @@ class DatabaseService{
     'name':newName
   }, merge: true);
   }
+  Future deleteUser() {
+  try{ DocumentReference docrefer= usersCollection.document(uid);
+  var del= docrefer.delete();
+  return del;
+  }
+  catch(e){
+    return null;
+  }
+  }
   //newuser
   Future createUserData(String name) async{
     return await usersCollection.document(uid).setData({

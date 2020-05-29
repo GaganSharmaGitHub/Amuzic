@@ -1,6 +1,6 @@
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/material.dart';
-
+import 'package:Amuzic/components/playerButtons.dart';
 class Player extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -42,29 +42,16 @@ onEnded: (k){
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
            children: <Widget>[
-
-       FlatButton(shape: CircleBorder(),
-       color: Colors.deepOrangeAccent,
-       child: Padding(
-         padding: const EdgeInsets.all(8.0),
-         child: Icon(Icons.playlist_play,
-         color: Colors.white,
-         size: 40,
-         ),
-       ),
-       onPressed: (){
-         Navigator.pushNamed(context, '/loadPlaylists', arguments: {'fromPlayer':true});
-      //Navigator.pushReplacementNamed(context, '/loadPlaylists');
-
-       },),
-            PlayPauseButton(funcOne: _controller.play,
-                  funcTwo: _controller.pause,
-                  icon1: Icons.play_arrow,
-                  icon2: Icons.pause,),
-            PlayPauseButton(funcTwo: _controller.mute,
+            CustomPlayPauseButton(funcTwo: _controller.mute,
                   funcOne: _controller.unMute,
                   icon1: Icons.volume_off,
                   icon2: Icons.volume_up,),
+            CustomPlayPauseButton(funcOne: _controller.play,
+                  funcTwo: _controller.pause,
+                  icon1: Icons.play_arrow,
+                  icon2: Icons.pause,),
+
+          CustomSpeedController(func: _controller.setPlaybackRate,)
 
            ],
          ),
@@ -102,9 +89,10 @@ onEnded: (k){
  mainAxisAlignment: MainAxisAlignment.spaceBetween,
    ),
    Expanded(
-          flex: 1, 
+          flex: 3, 
           child: Container(),
         ),
+    
   Text(playListName ,
   style:  TextStyle(
      color: Colors.deepOrangeAccent,
@@ -120,10 +108,59 @@ onEnded: (k){
      ),
    Text(playlist[index]['title'],
    style: TextStyle(fontSize: 20),),
-   Expanded(
-          flex: 1, 
-          child: Container(),
-        ),
+   
+    Expanded(flex: 1,
+    child: Container(),),
+   Row(
+     mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        FlatButton(shape: CircleBorder(),
+       color: Colors.deepOrangeAccent,
+       child: Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Icon(Icons.playlist_play,
+         color: Colors.white,
+         size: 40,
+         ),
+       ),
+       onPressed: (){
+         Navigator.pushNamed(context, '/loadPlaylists', arguments: {'fromPlayer':true});
+      //Navigator.pushReplacementNamed(context, '/loadPlaylists');
+
+       },),
+        FlatButton(shape: CircleBorder(),
+       color: Colors.deepOrangeAccent,
+       child: Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Icon(Icons.shuffle,
+         color: Colors.white,
+         size: 40,
+         ),
+       ),
+       onPressed: (){
+playlist.shuffle();
+ Navigator.pushReplacementNamed(
+   context, '/player', 
+ arguments: {'playList':playlist, 'index':0,'playlistName': playListName});
+          
+       },),
+       FlatButton(shape: CircleBorder(),
+       color: Colors.deepOrangeAccent,
+       child: Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Icon(Icons.replay,
+         color: Colors.white,
+         size: 40,
+         ),
+       ),
+       onPressed: (){
+        _controller.seekTo(Duration(seconds: 0));
+       },),
+       
+      ],
+    ),
+    Expanded(flex: 1,
+    child: Container(),),
 Container(
          height: 100,
          color: Colors.deepOrangeAccent,
@@ -137,7 +174,8 @@ playlist.asMap().entries.map((entry) {
 
     return InkWell(
      child: Image.network(val['img'],
-     width: 150,),
+     width: 150,
+     ),
      
    onTap: (){
        Navigator.pushReplacementNamed(context, '/player', arguments: {'playList':playlist, 'index':idx,'playlistName': playListName});
@@ -149,60 +187,7 @@ playlist.asMap().entries.map((entry) {
         )
  ],
           ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.deepOrangeAccent,
-          splashColor: Colors.white,
-          onPressed: (){
- playlist.shuffle();
- Navigator.pushReplacementNamed(
-   context, '/player', 
- arguments: {'playList':playlist, 'index':0,'playlistName': playListName});
-          },
-          child: Icon(Icons.shuffle),        
-        ),
         
       );
-  }
-}
-
-class PlayPauseButton extends StatefulWidget {
-  var funcOne;
-  var funcTwo;
-  var icon1;
-  var icon2;
-  PlayPauseButton({this.funcOne,this.funcTwo,this.icon1,this.icon2});
-
-  @override
-  _PlayPauseButtonState createState() => _PlayPauseButtonState();
-}
-
-class _PlayPauseButtonState extends State<PlayPauseButton> {
-  bool bValue=false;
-  handlePress(){
-    if(bValue){
-      widget.funcOne();
-    }
-    else{
-      widget.funcTwo();
-    }
-    setState(() {
-      bValue=!bValue;
-    });
-  }
-  @override
-  Widget build(BuildContext context) {
-    return 
-     FlatButton(shape: CircleBorder(),
-     color: Colors.deepOrangeAccent,
-     child: Padding(
-       padding: const EdgeInsets.all(8.0),
-       child: Icon(bValue?widget.icon1:widget.icon2,
-       color: Colors.white,
-       size: 40,
-       ),
-     ),
-     onPressed: (){
-       handlePress();;
-     },);
   }
 }

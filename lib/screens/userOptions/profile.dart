@@ -1,34 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:Amuzic/firebase/auth.dart';
 
-class UserOptionsScreen extends StatelessWidget {
+class ProfileOp extends StatefulWidget {
+  @override
+  _ProfileOpState createState() => _ProfileOpState();
+}
+
+class _ProfileOpState extends State<ProfileOp> {
+  AuthServices _authServices=AuthServices();
+  var profile;
+  void getStuff() async{
+   _authServices.imgNname().then((onValue){
+     setState(() {
+       profile=onValue;
+     });
+   });
+  }
+  @override
+  void initState(){
+    // TODO: implement initState
+    super.initState();
+    getStuff();
+  }
   @override
   Widget build(BuildContext context) {
-  final AuthServices _auth= AuthServices();
+
     return Scaffold(
 appBar:AppBar(
   backgroundColor: Colors.deepOrangeAccent,
-  title: Text('User Options'),
+  title: Text('Profile'),
 ) ,
 body: Column(
   children: <Widget>[
      Padding(
        padding: const EdgeInsets.all(12.0),
        child: CircleAvatar(
-         backgroundImage: AssetImage('image/amuzicLogo.png'),
+         backgroundImage: NetworkImage(''),
          radius: 50,
        ),
      ),
+     Text(profile.displayName==null?'user':profile.displayName),
      Column(
        children: <Widget>[
          ListTile(leading: Icon(Icons.person),
          title: Text('Profile'),
-         onTap: (){
-           Navigator.pushNamed(context, '/myProfile');
-         },
          ),
          ListTile(leading: Icon(Icons.music_video),
-         title: Text('My channels'),
+         title: Text(profile.email),
          onTap: (){
            Navigator.pushNamed(context, '/loadChannels');
          },
@@ -36,18 +54,10 @@ body: Column(
          ListTile(leading: Icon(Icons.playlist_play),
          title: Text('My Playlists'),
          ),
-         ListTile(leading: Icon(Icons.exit_to_app),
-         title: Text('SignOut'),
-         onTap: () async{
-          var signOut= _auth.signOut();
-          if(signOut==null){
-            Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to SignOut try again'))
-            );
-          }else{
-            Navigator.pop(context);
-            Navigator.popAndPushNamed(context, '/check');
-          }
+         ListTile(leading: Icon(Icons.delete),
+         title: Text('Delete'),
+         onTap: (){
+           _authServices.deleteUser();
          },
          ),
          

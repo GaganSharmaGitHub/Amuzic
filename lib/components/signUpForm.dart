@@ -156,7 +156,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       content: Text('Password and confirm password do not match')));
                 }else{
                 dynamic result = await widget._auth
-                    .newUserCreate({'email': email, 'password': password, name:name});
+                    .newUserCreate({'email': email, 'password': password, 'name':name});
                 if (result is String) {
                   Scaffold.of(context).showSnackBar(SnackBar(
                       content: Text(result)));

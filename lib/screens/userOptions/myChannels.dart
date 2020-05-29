@@ -17,6 +17,7 @@ class ChannelsScreen extends StatelessWidget {
             Text('My channels')
           ],
         ),
+        backgroundColor: Colors.deepOrangeAccent,
       ),
       body: ChannlesBody(initialArray: dataArray,),
     );
